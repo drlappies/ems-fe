@@ -4,7 +4,10 @@ import { styled } from '@mui/material/styles';
 const NavList = styled(List)({
     width: 250,
     minWidth: 250,
-    height: "100vh",
+    height: "100%",
+    position: "fixed",
+    top: 0,
+    left: 0,
     color: "#ffffff",
     backgroundColor: "#444950",
     paddingLeft: "10px",

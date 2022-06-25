@@ -15,10 +15,10 @@ function Tabs(props) {
     return (
         <TabContext value={tab}>
             <NavTabs onChange={handleChange}>
-                {tabList.map(({ label }, index) => <NavTab key={index} sx={{ color: "rgba(135, 123, 255, 0.8)" }} label={label} value={index.toString()} disableRipple />)}
+                {tabList.map(({ label }, index) => <NavTab key={index} label={label} value={index.toString()} disableRipple />)}
             </NavTabs>
 
-            {tabList.map(({ component }, index) => <TabPanel key={index} sx={{ overflowY: "auto", maxHeight: "70vh" }} value={index.toString()}>{component}</TabPanel>)}
+            {tabList.map(({ component }, index) => <TabPanel key={index} value={index.toString()}>{component}</TabPanel>)}
         </TabContext>
     )
 }

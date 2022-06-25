@@ -26,27 +26,25 @@ function DashboardPayrollTab() {
     }, [dispatch, order, orderBy, page, rowsPerPage])
 
     return (
-        <>
-            <Table
-                loading={payrollListStatus === networkStatus.FETCH_IN_PROGRESS}
-                error={payrollListStatus === networkStatus.FETCH_FAILED}
-                orderBy={orderBy}
-                order={order}
-                selected={selected}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={[5, 25, 100]}
-                onSelectAll={handleSelectAllClick}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                onRequestSort={handleRequestSort}
-                columns={columns}
-                rows={payrollList}
-                count={payrollListCount}
-                onSelectAllClick={handleSelectAllClick}
-                onSelect={handleClick}
-            />
-        </>
+        <Table
+            loading={payrollListStatus === networkStatus.FETCH_IN_PROGRESS}
+            error={payrollListStatus === networkStatus.FETCH_FAILED}
+            orderBy={orderBy}
+            order={order}
+            selected={selected}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[5, 25, 100]}
+            onSelectAll={handleSelectAllClick}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            onRequestSort={handleRequestSort}
+            columns={columns}
+            rows={payrollList}
+            count={payrollListCount}
+            onSelectAllClick={handleSelectAllClick}
+            onSelect={handleClick}
+        />
     )
 }
 

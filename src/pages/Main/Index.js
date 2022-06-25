@@ -6,7 +6,9 @@ function MainPage() {
     return (
         <Stack direction={"row"}>
             <Navbar />
-            <Outlet />
+            <div className="page">
+                <Outlet />
+            </div>
         </Stack>
     )
 }

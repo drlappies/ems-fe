@@ -1,10 +1,10 @@
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
-  overflow: hidden;
 }
 
 .page {
   padding: 50px;
   width: 100%;
+  margin-left: 250px;
 }
