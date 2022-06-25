@@ -7,6 +7,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import PunchClockIcon from '@mui/icons-material/PunchClock';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -21,7 +22,8 @@ function Navbar() {
         <NavList component="nav">
             <NavProfile />
             <Divider />
-            <NavItem to="/dashboard" icon={<PersonOutlineIcon />} text={"Dashboard"} />
+            <NavItem to="/dashboard" icon={<DashboardIcon />} text={"Dashboard"} />
+            <NavItem to="/user" icon={<PersonOutlineIcon />} text={"User"} />
             <NavItem to="/attendance/check_in" icon={<PunchClockIcon />} text={"Punch Card"} />
             <NavItem to="/leave/apply" icon={<SickOutlinedIcon />} text={"Leave Application"} />
             <Divider />

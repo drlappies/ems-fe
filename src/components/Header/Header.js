@@ -5,7 +5,7 @@ function Header(props) {
     const { text } = props;
 
     return (
-        <Typography variant="h5" fontWeight="bold" sx={{ margin: "10px" }}>{text}</Typography>
+        <Typography variant="h5" fontWeight="bold" sx={{ margin: "10px", marginLeft: 0 }}>{text}</Typography>
     )
 }
 

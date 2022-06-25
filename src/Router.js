@@ -9,6 +9,7 @@ import AttendanceCheckInPage from './pages/Attendance/CheckIn';
 import EmployeePage from './pages/Employee/Index';
 import LeavePage from './pages/Leave/Index';
 import PayrollPage from './pages/Payroll/Index';
+import ProfilePage from './pages/Profile/Index'
 import LeaveApplicationPage from './pages/Leave/Apply';
 import { getUser } from './redux/thunks/user';
 
@@ -24,6 +25,7 @@ function Router() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/" element={<MainPage />}>
                 <Route exact path="dashboard" element={<DashboardPage />} />
+                <Route exact path="user" element={<ProfilePage />} />
                 <Route exact path="attendance" element={<AttendancePage />} />
                 <Route exact path="attendance/check_in" element={<AttendanceCheckInPage />} />
                 <Route exact path="employee" element={<EmployeePage />} />

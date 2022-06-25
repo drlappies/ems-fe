@@ -1,6 +1,5 @@
 import Header from '../../components/Header/Header';
 import TabList from '../../components/Tab/TabList';
-import Profile from '../../components/Profile/Profile'
 import DashboardAttendanceTab from './Attendance';
 import DashboardLeaveTab from './Leave';
 import DashboardPayrollTab from './Payroll';
@@ -15,7 +14,6 @@ function DashboardPage() {
     return (
         <>
             <Header text={"Dashboard"} />
-            <Profile />
             <TabList tabList={tabList} />
         </>
     )
