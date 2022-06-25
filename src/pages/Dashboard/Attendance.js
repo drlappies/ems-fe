@@ -40,7 +40,6 @@ function DashboardAttendanceTab() {
             for (let j = 0; j < rawCalendar[i].length; j++) {
                 const date = rawCalendar[i][j];
                 if (date) {
-                    console.log(attdList)
                     const attd = attdList.find((el) => new Date(el.date).getDate() === date.date)
                     if (attd) {
                         rawCalendar[i][j] = {

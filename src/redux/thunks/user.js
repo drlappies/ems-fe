@@ -3,6 +3,7 @@ import userApi from '../../services/apis/user'
 import loginApi from '../../services/apis/login'
 import * as userAction from '../actions/user'
 import { replace } from 'connected-react-router'
+import moment from 'moment'
 
 export function postLogin(username, password) {
     return async (dispatch) => {
@@ -94,20 +95,30 @@ export function getUserLeave(mindate, maxdate) {
     }
 }
 
-export function getUserPayroll(offset, limit) {
+export function getUserPayroll(offset, limit, order, sort) {
     return async (dispatch) => {
         dispatch(userAction.getUserPayroll())
         try {
             const params = {
                 offset: offset,
-                limit: limit
+                limit: limit,
+                sort: sort,
+                order: order,
             }
 
             const res = await fetch(userApi.getUserPayroll.api, userApi.getUserPayroll.method, params)
 
             const payload = {
-                userPayroll: res.data.result,
-                payrollCount: res.data.count.count
+                payrollList: res.data.result.result.map(row => {
+                    return {
+                        ...row,
+                        date_from: moment(row.date_from).format('YYYY-MM-DD'),
+                        date_to: moment(row.date_to).format('YYYY-MM-DD'),
+                        payday: moment(row.payday).format('YYYY-MM-DD'),
+                        amount: `$${row.amount}`
+                    }
+                }),
+                payrollListCount: parseInt(res.data.result.count.count)
             }
 
             dispatch(userAction.getUserPayrollSuccess(payload))

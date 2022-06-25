@@ -10,7 +10,6 @@ import EmployeePage from './pages/Employee/Index';
 import LeavePage from './pages/Leave/Index';
 import PayrollPage from './pages/Payroll/Index';
 import LeaveApplicationPage from './pages/Leave/Apply';
-
 import { getUser } from './redux/thunks/user';
 
 function Router() {

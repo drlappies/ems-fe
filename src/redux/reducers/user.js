@@ -7,11 +7,11 @@ const initialState = {
     getUserStatus: networkStatus.IDLE,
     getAttdListStatus: networkStatus.IDLE,
     getLeaveListStatus: networkStatus.IDLE,
-    getUserPayrollStatus: networkStatus.IDLE,
+    getPayrollListStatus: networkStatus.IDLE,
     attdList: [],
     leaveList: [],
-    userPayroll: [],
-    payrollCount: 0,
+    payrollList: [],
+    payrollListCount: 0,
 }
 
 const userReducer = (state = initialState, action) => {
@@ -97,21 +97,21 @@ const userReducer = (state = initialState, action) => {
         case userActionTypes.GET_USER_PAYROLL:
             return {
                 ...state,
-                getUserPayrollStatus: networkStatus.FETCH_IN_PROGRESS
+                getPayrollListStatus: networkStatus.FETCH_IN_PROGRESS
             }
 
         case userActionTypes.GET_USER_PAYROLL_SUCCESS:
             return {
                 ...state,
-                getUserPayrollStatus: networkStatus.FETCH_SUCCEEDED,
-                userPayroll: payload.userPayroll,
-                payrollCount: payload.payrollCount
+                getPayrollListStatus: networkStatus.FETCH_SUCCEEDED,
+                payrollList: payload.payrollList,
+                payrollListCount: payload.payrollListCount
             }
 
         case userActionTypes.GET_USER_PAYROLL_FAILURE:
             return {
                 ...state,
-                getUserPayrollStatus: networkStatus.FETCH_FAILED,
+                getPayrollListStatus: networkStatus.FETCH_FAILED,
             }
 
         default:
