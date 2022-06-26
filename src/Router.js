@@ -12,12 +12,14 @@ import PayrollPage from './pages/Payroll/Index';
 import ProfilePage from './pages/Profile/Index'
 import LeaveApplicationPage from './pages/Leave/Apply';
 import { getUser } from './redux/thunks/user';
+import { getEmployee } from './redux/thunks/employee'
 
 function Router() {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getUser())
+        dispatch(getEmployee())
     }, [dispatch])
 
     return (

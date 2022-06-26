@@ -13,8 +13,8 @@ const initialState = {
     hasUserCheckedOut: false,
     userCheckInTime: "",
     userCheckOutTime: "",
-    attendences: [],
-    attendancesCount: 0,
+    attdList: [],
+    attdListCount: 0,
     attendance: {},
 }
 
@@ -95,8 +95,8 @@ const attendanceReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getAttdStatus: networkStatus.FETCH_SUCCEEDED,
-                attendences: payload.attendences,
-                attendancesCount: payload.attendancesCount
+                attdList: payload.attdList,
+                attdListCount: payload.attdListCount
             }
 
         case attendanceActionTypes.GET_ATTENDANCE_FAILURE:
@@ -134,7 +134,6 @@ const attendanceReducer = (state = initialState, action) => {
             return {
                 ...state,
                 deleteAttdStatus: networkStatus.FETCH_SUCCEEDED,
-                attendences: payload.attendences
             }
 
         case attendanceActionTypes.DELETE_ATTENDANCE_BY_ID_FAILURE:
@@ -153,7 +152,6 @@ const attendanceReducer = (state = initialState, action) => {
             return {
                 ...state,
                 deleteAttdStatus: networkStatus.FETCH_SUCCEEDED,
-                attendences: payload.attendences
             }
 
         case attendanceActionTypes.BATCH_DELETE_ATTENDANCE_FAILURE:

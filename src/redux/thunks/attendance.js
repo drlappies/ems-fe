@@ -1,3 +1,4 @@
+import moment from 'moment';
 import fetch from "../../services/axios/index";
 import attendanceApi from "../../services/apis/attendance";
 import * as attendanceAction from '../actions/attendance';
@@ -71,7 +72,7 @@ export function postAttdCheckOut() {
     }
 }
 
-export function getAttendance(offset, limit, employeeId, status, search, minDate, maxDate) {
+export function getAttendance(offset, limit, orderBy, order, search, employeeId, status, minDate, maxDate,) {
     return async (dispatch) => {
         dispatch(attendanceAction.getAttendance())
         try {
@@ -79,47 +80,53 @@ export function getAttendance(offset, limit, employeeId, status, search, minDate
             if (status === "any") status = ""
 
             const res = await fetch(attendanceApi.getAttendance.api, attendanceApi.getAttendance.method, {
-                params: {
-                    offset: offset,
-                    limit: limit,
-                    employee_id: employeeId,
-                    status: status,
-                    search: search,
-                    mindate: minDate,
-                    maxdate: maxDate
-                }
+                offset: offset,
+                limit: limit,
+                employee_id: employeeId,
+                status: status,
+                search: search,
+                mindate: minDate,
+                maxdate: maxDate,
+                orderBy: orderBy,
+                order: order,
             })
 
-            // const payload = {
-            //     attendences: convertListDate(res.data.result, "date"),
-            //     attendancesCount: parseInt(res.data.count.count)
-            // }
+            const payload = {
+                attdList: res.data.result.map(el => {
+                    return {
+                        ...el,
+                        date: moment(el.date).format("YYYY-MM-DD")
+                    }
+                }),
+                attdListCount: parseInt(res.data.count.count)
+            }
 
-            // dispatch(attendanceAction.getAttendanceSuccess(payload))
+            dispatch(attendanceAction.getAttendanceSuccess(payload))
         } catch (error) {
             dispatch(attendanceAction.getAttendanceFailure(error))
         }
     }
 }
 
-export function postAttendance(employeeId, date, checkInTime, checkOutTime, status) {
+export function postAttendance(employeeId, date, checkInTime, checkOutTime, status, cb) {
     return async (dispatch) => {
         dispatch(attendanceAction.postAttendance())
         try {
-            await fetch(attendanceApi.postAttendance.api, attendanceApi.postAttendance.method, {
-                body: {
-                    employee_id: employeeId,
-                    date: date,
-                    check_in: checkInTime,
-                    check_out: checkOutTime,
-                    status: status
-                }
+            const res = await fetch(attendanceApi.postAttendance.api, attendanceApi.postAttendance.method, {
+                employee_id: employeeId,
+                date: date,
+                check_in_time: checkInTime,
+                check_out_time: checkOutTime,
+                status: status
             })
 
             dispatch(attendanceAction.postAttendanceSuccess())
+
+            if (cb) {
+                cb(res.data)
+            }
         } catch (error) {
             dispatch(attendanceAction.postAttendanceFailure())
-            throw error
         }
     }
 }
@@ -141,21 +148,13 @@ export function getAttendanceById(id) {
     }
 }
 
-export function deleteAttendanceById(id) {
-    return async (dispatch, getState) => {
+export function deleteAttendanceById(id, cb) {
+    return async (dispatch) => {
         dispatch(attendanceAction.deleteAttendanceById())
         try {
             await fetch(attendanceApi.deleteAttendanceById.api.replace("{{id}}", id), attendanceApi.deleteAttendanceById.method)
 
-            const state = getState()
-
-            const attendanceList = state.attendance.attendences.filter(el => !id.includes(el.id))
-
-            const payload = {
-                attendences: attendanceList
-            }
-
-            dispatch(attendanceAction.deleteAttendanceByIdSuccess(payload))
+            dispatch(attendanceAction.deleteAttendanceByIdSuccess())
 
             // const snackbar = {
             //     message: "Successfully deleted!",
@@ -165,31 +164,22 @@ export function deleteAttendanceById(id) {
             // }
 
             // dispatch(snackbarAction.addSnackbar(snackbar))
+            if (cb) cb()
         } catch (error) {
             dispatch(attendanceAction.deleteAttendanceByIdFailure())
         }
     }
 }
 
-export function deleteManyByIds(ids) {
-    return async (dispatch, getState) => {
+export function deleteManyByIds(ids, cb) {
+    return async (dispatch) => {
         dispatch(attendanceAction.batchDeleteAttendance())
         try {
             await fetch(attendanceApi.batchDeleteAttendance.api, attendanceApi.batchDeleteAttendance.method, {
-                body: {
-                    ids: [...ids]
-                }
+                ids: [...ids]
             })
 
-            const state = getState();
-
-            const attendanceList = state.attendance.attendences.filter(el => !ids.includes(el.id))
-
-            const payload = {
-                attendences: attendanceList
-            }
-
-            dispatch(attendanceAction.batchDeleteAttendanceSuccess(payload))
+            dispatch(attendanceAction.batchDeleteAttendanceSuccess())
 
             // const snackbar = {
             //     message: "Successfully deleted!",
@@ -199,23 +189,25 @@ export function deleteManyByIds(ids) {
             // }
 
             // dispatch(snackbarAction.addSnackbar(snackbar))
+            if (cb) cb()
         } catch (error) {
+            console.log(error)
             dispatch(attendanceAction.batchDeleteAttendanceFailure())
         }
     }
 }
 
-export function putAttendanceById(id, checkInTime, checkOutTime, status) {
+export function putAttendanceById(id, checkInTime, checkOutTime, status, cb) {
     return async (dispatch) => {
         dispatch(attendanceAction.putAttendanceById())
+        const data = {};
+
+        if (checkInTime) data.check_in_time = checkInTime;
+        if (checkOutTime) data.check_out_time = checkOutTime;
+        if (status) data.status = status;
+
         try {
-            await fetch(attendanceApi.putAttendanceById.api.replace("{{id}}", id), attendanceApi.putAttendanceById.method, {
-                body: {
-                    check_in: checkInTime,
-                    check_out: checkOutTime,
-                    status: status
-                }
-            })
+            const res = await fetch(attendanceApi.putAttendanceById.api.replace("{{id}}", id), attendanceApi.putAttendanceById.method, data)
 
             dispatch(attendanceAction.putAttendanceByIdSuccess())
 
@@ -227,24 +219,27 @@ export function putAttendanceById(id, checkInTime, checkOutTime, status) {
             // }
 
             // dispatch(snackbarAction.addSnackbar(snackbar))
+            if (cb) cb(res.data)
         } catch (error) {
             dispatch(attendanceAction.putAttendanceByIdFailure())
         }
     }
 }
 
-export function updateManyByIds(ids, checkInTime, checkOutTime, status) {
+export function updateManyByIds(ids, checkInTime, checkOutTime, status, cb) {
     return async (dispatch) => {
         dispatch(attendanceAction.batchUpdateAttendance())
         try {
-            await fetch(attendanceApi.batchUpdateAttendance.api, attendanceApi.batchUpdateAttendance.method, {
-                body: {
-                    ids: ids,
-                    check_in: checkInTime,
-                    check_out: checkOutTime,
-                    status: status
-                }
-            })
+            const data = {
+                ids: [...ids],
+            }
+
+            if (checkInTime) data.check_in_time = checkInTime;
+            if (checkOutTime) data.check_out_time = checkOutTime;
+            if (status) data.status = status;
+
+
+            const res = await fetch(attendanceApi.batchUpdateAttendance.api, attendanceApi.batchUpdateAttendance.method, data)
 
             dispatch(attendanceAction.batchUpdateAttendanceSuccess())
 
@@ -256,6 +251,8 @@ export function updateManyByIds(ids, checkInTime, checkOutTime, status) {
             // }
 
             // dispatch(snackbarAction.addSnackbar(snackbar))
+
+            if (cb) cb(res.data)
         } catch (error) {
             dispatch(attendanceAction.batchUpdateAttendanceFailure())
         }

@@ -9,9 +9,6 @@ import thunk from 'redux-thunk';
 
 export const history = createBrowserHistory();
 
-const reduxLogger = createLogger({
-    collapsed: true,
-    duration: true,
-});
+const reduxLogger = createLogger();
 
 export const store = createStore(createRootReducer(history), {}, composeWithDevTools(applyMiddleware(thunk, routerMiddleware(history), reduxLogger)))

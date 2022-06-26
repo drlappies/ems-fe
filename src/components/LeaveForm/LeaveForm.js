@@ -97,6 +97,7 @@ function LeaveForm() {
                     fullWidth
                     value={date}
                     onChange={setDate}
+                    variant="standard"
                 />
                 <TextField
                     disabled={leaveApp.length >= 5}
@@ -106,6 +107,7 @@ function LeaveForm() {
                     select
                     value={span}
                     onChange={handleSpanChange}
+                    variant="standard"
                 >
                     <MenuItem value="full_day">Full Day</MenuItem>
                     <MenuItem value="half_day">Half Day</MenuItem>
@@ -118,6 +120,7 @@ function LeaveForm() {
                     select
                     value={type}
                     onChange={handleTypeChange}
+                    variant="standard"
                 >
                     <MenuItem value="sick">Sick</MenuItem>
                     <MenuItem value="personal">Personal</MenuItem>
@@ -132,18 +135,13 @@ function LeaveForm() {
                     fullWidth
                     value={remark}
                     onChange={handleRemarkUpdate}
+                    variant="standard"
                 />
                 <Button
                     disabled={leaveApp.length >= 5}
                     disableRipple
                     fullWidth
-                    variant="contained"
-                    sx={{
-                        bgcolor: "rgba(135, 123, 255,1)",
-                        "&.MuiButtonBase-root:hover": {
-                            bgcolor: "rgba(135, 123, 255,1)"
-                        }
-                    }}
+                    color="inherit"
                     onClick={addLeave}
                 >
                     Add Leave
@@ -153,13 +151,7 @@ function LeaveForm() {
                 {leaveApp.length > 0 && <Button
                     disableRipple
                     fullWidth
-                    variant="contained"
-                    sx={{
-                        bgcolor: "rgba(135, 123, 255,1)",
-                        "&.MuiButtonBase-root:hover": {
-                            bgcolor: "rgba(135, 123, 255,1)"
-                        }
-                    }}
+                    color="inherit"
                     onClick={() => apply()}
                 >
                     Apply
