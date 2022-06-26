@@ -7635,6 +7635,16 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-live-clock@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-live-clock/-/react-live-clock-6.0.1.tgz#827f46365f1084ea687b0b8cb4983d9d4df3ccf9"
+  integrity sha512-o+nNwgfDGmYGMQPWLxLUc7rUIpwhAuYlJ/du/94Hd5z1zSb+faRfIk6EC4YgAgPik+qlhXalX6I2FvguhReceQ==
+
+react-moment@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-1.1.2.tgz#a9b157c58ddd226a2f746e5ca43415b24a17b6af"
+  integrity sha512-lfb+shYXI2tXlQrNUpNr05/1D/kzFj8Isbfp89DQrpZk0fs2JIAnLHWETR0hQS9zvtzwLWlVv0wKLffbue5HoA==
+
 react-redux@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-8.0.2.tgz#bc2a304bb21e79c6808e3e47c50fe1caf62f7aad"

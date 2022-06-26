@@ -1,6 +1,12 @@
+import Header from '../../components/Header/Header';
+import Punch from '../../components/Punch/Punch'
+
 function AttendanceCheckInPage() {
     return (
-        <div>attendance check in</div>
+        <>
+            <Header text="Punch Card" />
+            <Punch />
+        </>
     )
 }
 

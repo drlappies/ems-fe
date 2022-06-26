@@ -2,7 +2,7 @@ import { networkStatus } from "../../constants/network"
 import userActionTypes from "../actions/user"
 
 const initialState = {
-    user: null,
+    user: {},
     postLoginStatus: networkStatus.IDLE,
     getUserStatus: networkStatus.IDLE,
     getAttdListStatus: networkStatus.IDLE,
