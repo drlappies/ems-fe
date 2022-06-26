@@ -8,7 +8,7 @@ import CalendarTimePicker from '../../components/Calendar/CalendarTimePicker'
 import useCalendar from '../../components/Calendar/useCalendar'
 
 
-const renderCalendarBox = ({ leave_type, status, span }) => {
+export const renderCalendarBox = ({ leave_type, status, span }) => {
     if (!status && !leave_type && span) return;
 
     const getStatusColor = (status) => {

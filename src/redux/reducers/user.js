@@ -85,7 +85,7 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getLeaveListStatus: networkStatus.FETCH_SUCCEEDED,
-                userLeave: payload.userLeave
+                leaveList: payload.leaveList
             }
 
         case userActionTypes.GET_USER_LEAVE_FAILURE:

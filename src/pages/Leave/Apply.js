@@ -1,6 +1,12 @@
+import Header from '../../components/Header/Header';
+import LeaveForm from '../../components/LeaveForm/LeaveForm';
+
 function LeaveApplicationPage() {
     return (
-        <div>leave </div>
+        <>
+            <Header text="Leave Application" />
+            <LeaveForm />
+        </>
     )
 }
 
