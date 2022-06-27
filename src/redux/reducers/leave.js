@@ -2,7 +2,10 @@ import { networkStatus } from "../../constants/network"
 import leaveActionTypes from "../actions/leave"
 
 const initialState = {
-    postLeaveStatus: networkStatus.IDLE
+    postLeaveStatus: networkStatus.IDLE,
+    getLeaveStatus: networkStatus.IDLE,
+    leaveList: [],
+    leaveListCount: 0,
 }
 
 const leaveReducer = (state = initialState, action) => {
@@ -25,6 +28,26 @@ const leaveReducer = (state = initialState, action) => {
             return {
                 ...state,
                 postLeaveStatus: networkStatus.FETCH_FAILED
+            }
+
+        case leaveActionTypes.GET_LEAVE:
+            return {
+                ...state,
+                getLeaveStatus: networkStatus.FETCH_IN_PROGRESS
+            }
+
+        case leaveActionTypes.GET_LEAVE_SUCCESS:
+            return {
+                ...state,
+                getLeaveStatus: networkStatus.FETCH_SUCCEEDED,
+                leaveList: payload.leaveList,
+                leaveListCount: payload.leaveListCount
+            }
+
+        case leaveActionTypes.GET_LEAVE_FAILURE:
+            return {
+                ...state,
+                getLeaveStatus: networkStatus.FETCH_FAILED
             }
 
         default:

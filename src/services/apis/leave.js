@@ -12,6 +12,10 @@ const leaveApi = {
     postApplyMany: {
         api: "/api/leave/apply_many",
         method: methods.POST
+    },
+    getLeave: {
+        api: "/api/leave",
+        method: methods.GET
     }
 }
 

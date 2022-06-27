@@ -10,6 +10,10 @@ const leaveActionTypes = {
     POST_APPLY_MANY_LEAVE: "POST_APPLY_MANY_LEAVE",
     POST_APPLY_MANY_LEAVE_SUCCESS: "POST_APPLY_MANY_LEAVE_SUCCESS",
     POST_APPLY_MANY_LEAVE_FAILURE: "POST_APPLY_MANY_LEAVE_FAILURE",
+
+    GET_LEAVE: "GET_LEAVE",
+    GET_LEAVE_SUCCESS: "GET_LEAVE_SUCCESS",
+    GET_LEAVE_FAILURE: "GET_LEAVE_FAILURE",
 }
 
 export default leaveActionTypes
@@ -73,6 +77,27 @@ export function postApplyManyLeaveSuccess(payload) {
 export function postApplyManyLeaveFailure(payload) {
     return {
         type: leaveActionTypes.POST_APPLY_MANY_LEAVE_FAILURE,
+        payload
+    }
+}
+
+export function getLeave(payload) {
+    return {
+        type: leaveActionTypes.GET_LEAVE,
+        payload
+    }
+}
+
+export function getLeaveSuccess(payload) {
+    return {
+        type: leaveActionTypes.GET_LEAVE_SUCCESS,
+        payload
+    }
+}
+
+export function getLeaveFailure(payload) {
+    return {
+        type: leaveActionTypes.GET_LEAVE_FAILURE,
         payload
     }
 }
