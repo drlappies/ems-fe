@@ -17,6 +17,7 @@ import Stack from '@mui/material/Stack';
 import MenuItem from "@mui/material/MenuItem";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 function LeaveForm() {
     const dispatch = useDispatch();
@@ -157,6 +158,7 @@ function LeaveForm() {
                     Apply
                 </Button>}
             </Stack>
+            <Divider orientation="vertical" flexItem />
             <Stack sx={{ width: "60%" }}>
                 <CalendarTimePicker
                     year={year}

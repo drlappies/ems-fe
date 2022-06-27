@@ -44,6 +44,10 @@ function AttendancePage() {
     const [minDate, setMinDate] = useState(null)
     const [maxDate, setMaxDate] = useState(null)
 
+    const refresh = useCallback(() => {
+        dispatch(getAttendance(page * rowsPerPage, rowsPerPage, orderBy, order, search, employeeId, attdStatus, minDate?.format("YYYY-MM-DD"), maxDate?.format("YYYY-MM-DD")))
+    }, [attdStatus, dispatch, employeeId, maxDate, minDate, order, orderBy, page, rowsPerPage, search])
+
     useEffect(() => {
         dispatch(getAttendance(page * rowsPerPage, rowsPerPage, orderBy, order, search, employeeId, attdStatus, minDate?.format("YYYY-MM-DD"), maxDate?.format("YYYY-MM-DD")))
     }, [attdStatus, dispatch, employeeId, maxDate, minDate, order, orderBy, page, rowsPerPage, search])
@@ -110,7 +114,7 @@ function AttendancePage() {
                         startIcon={<CreateIcon />}
                         size="small"
                         color="inherit"
-                        onClick={() => openDrawer(<CreateDrawer />)}
+                        onClick={() => openDrawer(<CreateDrawer refresh={refresh} />)}
                     >
                         Create
                     </Button>
@@ -119,7 +123,7 @@ function AttendancePage() {
                         startIcon={<UpdateIcon />}
                         size="small"
                         color="inherit"
-                        onClick={() => openDrawer(<UpdateDrawer selected={selected} />)}
+                        onClick={() => openDrawer(<UpdateDrawer selected={selected} refresh={refresh} />)}
                         disabled={selected.length < 1}
                     >
                         Update
@@ -129,7 +133,7 @@ function AttendancePage() {
                         startIcon={<DeleteIcon />}
                         size="small"
                         color="inherit"
-                        onClick={() => openDrawer(<DeleteDrawer selected={selected} />)}
+                        onClick={() => openDrawer(<DeleteDrawer selected={selected} refresh={refresh} />)}
                         disabled={selected.length < 1}
                     >
                         Delete
@@ -160,7 +164,8 @@ function AttendancePage() {
     )
 }
 
-function CreateDrawer() {
+function CreateDrawer(props) {
+    const { refresh } = props;
     const dispatch = useDispatch()
     const { closeDrawer } = useContext(DrawerContext)
     const employeeList = useSelector(state => state.employee.employeeList)
@@ -173,8 +178,9 @@ function CreateDrawer() {
     const handleSubmit = useCallback(() => {
         dispatch(postAttendance(employeeId, date, startTime?.format("HH:mm:ss"), endTime?.format("HH:mm:ss"), status, () => {
             closeDrawer()
+            refresh();
         }))
-    }, [closeDrawer, date, dispatch, employeeId, endTime, startTime, status])
+    }, [closeDrawer, date, dispatch, employeeId, endTime, refresh, startTime, status])
 
     return (
         <Stack spacing={3}>
@@ -239,17 +245,23 @@ function CreateDrawer() {
 }
 
 function DeleteDrawer(props) {
-    const { selected } = props;
+    const { selected, refresh } = props;
     const { closeDrawer } = useContext(DrawerContext)
     const dispatch = useDispatch()
 
     const handleSubmit = useCallback(() => {
         if (selected.length <= 1) {
-            dispatch(deleteAttendanceById(selected[0], () => closeDrawer()))
+            dispatch(deleteAttendanceById(selected[0], () => {
+                closeDrawer()
+                refresh()
+            }))
         } else {
-            dispatch(deleteManyByIds(selected, () => closeDrawer()))
+            dispatch(deleteManyByIds(selected, () => {
+                closeDrawer()
+                refresh()
+            }))
         }
-    }, [closeDrawer, dispatch, selected])
+    }, [closeDrawer, dispatch, refresh, selected])
 
     return (
         <Stack spacing={3}>
@@ -269,7 +281,7 @@ function DeleteDrawer(props) {
 }
 
 function UpdateDrawer(props) {
-    const { selected } = props;
+    const { selected, refresh } = props;
     const { closeDrawer } = useContext(DrawerContext)
     const dispatch = useDispatch();
     const [date, setDate] = useState("")
@@ -281,13 +293,15 @@ function UpdateDrawer(props) {
         if (selected.length <= 1) {
             dispatch(putAttendanceById(selected[0], startTime?.format("HH:mm:ss"), endTime?.format("HH:mm:ss"), status, () => {
                 closeDrawer()
+                refresh()
             }))
         } else {
             dispatch(updateManyByIds(selected, startTime?.format("HH:mm:ss"), endTime?.format("HH:mm:ss"), status, () => {
                 closeDrawer()
+                refresh()
             }))
         }
-    }, [closeDrawer, dispatch, endTime, selected, startTime, status])
+    }, [closeDrawer, dispatch, endTime, refresh, selected, startTime, status])
 
     return (
         <Stack spacing={3}>
