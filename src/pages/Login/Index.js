@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import LoginForm from '../../components/LoginForm/LoginForm'
+import LoginForm from '../../features/LoginForm/LoginForm'
 
 function LoginPage() {
     return (

@@ -15,7 +15,6 @@ function Profile() {
             <ProfileInfo label="Working hours" value={`${user.start_work_time} - ${user.end_work_time}`} />
             <ProfileInfo label="Monthly Salary" value={user.monthly_salary} />
             <ProfileInfo label="Joined at" value={moment(user.joined_date).format("YYYY-MM-DD")} />
-
         </List>
     )
 }

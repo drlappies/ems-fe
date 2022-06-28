@@ -8,10 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { renderCalendarBox } from '../../pages/Dashboard/Leave';
 import moment from 'moment';
 import useInput from '../../hooks/useInput';
-import DatePicker from '../DatePicker/DatePicker'
+import DatePicker from '../../components/DatePicker/DatePicker'
 import MonthlyCalendar from '../../components/Calendar/MonthlyCalendar';
 import useCalendar from '../../components/Calendar/useCalendar';
-import CalendarTimePicker from '../Calendar/CalendarTimePicker';
+import CalendarTimePicker from '../../components/Calendar/CalendarTimePicker';
 import LeaveList from './LeaveList'
 import Stack from '@mui/material/Stack';
 import MenuItem from "@mui/material/MenuItem";

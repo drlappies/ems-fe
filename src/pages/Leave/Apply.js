@@ -1,5 +1,5 @@
 import Header from '../../components/Header/Header';
-import LeaveForm from '../../components/LeaveForm/LeaveForm';
+import LeaveForm from '../../features/LeaveForm/LeaveForm';
 
 function LeaveApplicationPage() {
     return (

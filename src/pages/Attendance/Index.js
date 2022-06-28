@@ -2,22 +2,23 @@ import { useEffect, useContext, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DrawerContext } from '../../contexts/DrawerContext'
 import { networkStatus } from '../../constants/network';
-import { getAttendance, postAttendance, putAttendanceById, updateManyByIds, deleteAttendanceById, deleteManyByIds } from '../../redux/thunks/attendance';
+import { getAttendance } from '../../redux/thunks/attendance';
 import useInput from '../../hooks/useInput';
 import Header from '../../components/Header/Header';
 import Table from '../../components/Table/Table';
 import useTable from '../../components/Table/useTable'
 import DatePicker from '../../components/DatePicker/DatePicker';
-import TimePicker from '../../components/TimePicker/TimePicker';
+import Create from '../../features/Attendance/Create';
+import Delete from '../../features/Attendance/Delete';
+import Update from '../../features/Attendance/Update';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
-import LoadingButton from '@mui/lab/LoadingButton';
+
 
 const columns = [
     { id: 'id', label: 'ID' },
@@ -114,7 +115,7 @@ function AttendancePage() {
                         startIcon={<CreateIcon />}
                         size="small"
                         color="inherit"
-                        onClick={() => openDrawer(<CreateDrawer refresh={refresh} />)}
+                        onClick={() => openDrawer(<Create refresh={refresh} />)}
                     >
                         Create
                     </Button>
@@ -123,7 +124,7 @@ function AttendancePage() {
                         startIcon={<UpdateIcon />}
                         size="small"
                         color="inherit"
-                        onClick={() => openDrawer(<UpdateDrawer selected={selected} refresh={refresh} />)}
+                        onClick={() => openDrawer(<Update selected={selected} refresh={refresh} />)}
                         disabled={selected.length < 1}
                     >
                         Update
@@ -133,7 +134,7 @@ function AttendancePage() {
                         startIcon={<DeleteIcon />}
                         size="small"
                         color="inherit"
-                        onClick={() => openDrawer(<DeleteDrawer selected={selected} refresh={refresh} />)}
+                        onClick={() => openDrawer(<Delete selected={selected} refresh={refresh} />)}
                         disabled={selected.length < 1}
                     >
                         Delete
@@ -161,197 +162,6 @@ function AttendancePage() {
                 onSelect={handleClick}
             />
         </>
-    )
-}
-
-function CreateDrawer(props) {
-    const { refresh } = props;
-    const dispatch = useDispatch()
-    const { closeDrawer } = useContext(DrawerContext)
-    const employeeList = useSelector(state => state.employee.employeeList)
-    const [employeeId, handleEmployeeIdChange] = useInput("")
-    const [date, setDate] = useState("")
-    const [startTime, setStartTime] = useState("")
-    const [endTime, setEndTime] = useState("")
-    const [status, handleStatusChange] = useInput("")
-
-    const handleSubmit = useCallback(() => {
-        dispatch(postAttendance(employeeId, date, startTime?.format("HH:mm:ss"), endTime?.format("HH:mm:ss"), status, () => {
-            closeDrawer()
-            refresh();
-        }))
-    }, [closeDrawer, date, dispatch, employeeId, endTime, refresh, startTime, status])
-
-    return (
-        <Stack spacing={3}>
-            <Typography variant="h6" fontWeight="bold">Create Attendance</Typography>
-            <TextField
-                size="small"
-                variant="standard"
-                label="Employee"
-                select
-                value={employeeId}
-                onChange={handleEmployeeIdChange}
-                fullWidth
-            >
-                {employeeList.map(employee => <MenuItem key={employee.id} value={employee.id}>{employee.firstname} {employee.lastname}</MenuItem>)}
-            </TextField>
-            <DatePicker
-                value={date}
-                onChange={setDate}
-                size="small"
-                label="Date"
-                variant="standard"
-                fullWidth
-            />
-            <TimePicker
-                label="Check In"
-                value={startTime}
-                onChange={setStartTime}
-                size="small"
-                fullWidth
-                variant="standard"
-            />
-            <TimePicker
-                label="Check Out"
-                value={endTime}
-                onChange={setEndTime}
-                size="small"
-                fullWidth
-                variant="standard"
-            />
-            <TextField
-                size="small"
-                variant="standard"
-                label="Status"
-                select
-                value={status}
-                onChange={handleStatusChange}
-            >
-                <MenuItem value="on_time">On-Time</MenuItem>
-                <MenuItem value="late">Late</MenuItem>
-            </TextField>
-            <LoadingButton
-                disableRipple
-                color="inherit"
-                startIcon={<CreateIcon />}
-                onClick={handleSubmit}
-            >
-                Create
-            </LoadingButton>
-        </Stack>
-
-    )
-}
-
-function DeleteDrawer(props) {
-    const { selected, refresh } = props;
-    const { closeDrawer } = useContext(DrawerContext)
-    const dispatch = useDispatch()
-
-    const handleSubmit = useCallback(() => {
-        if (selected.length <= 1) {
-            dispatch(deleteAttendanceById(selected[0], () => {
-                closeDrawer()
-                refresh()
-            }))
-        } else {
-            dispatch(deleteManyByIds(selected, () => {
-                closeDrawer()
-                refresh()
-            }))
-        }
-    }, [closeDrawer, dispatch, refresh, selected])
-
-    return (
-        <Stack spacing={3}>
-            <Typography variant="h6" fontWeight="bold">Delete Attendance</Typography>
-            <Typography variant="body1" fontWeight="bold">Deleting ID(s): </Typography>
-            <Typography variant="body2" fontWeight="bold">{selected.map(el => `${el}, `)}</Typography>
-            <LoadingButton
-                disableRipple
-                color="inherit"
-                startIcon={<DeleteIcon />}
-                onClick={handleSubmit}
-            >
-                Delete
-            </LoadingButton>
-        </Stack>
-    )
-}
-
-function UpdateDrawer(props) {
-    const { selected, refresh } = props;
-    const { closeDrawer } = useContext(DrawerContext)
-    const dispatch = useDispatch();
-    const [date, setDate] = useState("")
-    const [startTime, setStartTime] = useState(null)
-    const [endTime, setEndTime] = useState(null)
-    const [status, handleStatusChange] = useInput("")
-
-    const handleSubmit = useCallback(() => {
-        if (selected.length <= 1) {
-            dispatch(putAttendanceById(selected[0], startTime?.format("HH:mm:ss"), endTime?.format("HH:mm:ss"), status, () => {
-                closeDrawer()
-                refresh()
-            }))
-        } else {
-            dispatch(updateManyByIds(selected, startTime?.format("HH:mm:ss"), endTime?.format("HH:mm:ss"), status, () => {
-                closeDrawer()
-                refresh()
-            }))
-        }
-    }, [closeDrawer, dispatch, endTime, refresh, selected, startTime, status])
-
-    return (
-        <Stack spacing={3}>
-            <Typography variant="h6" fontWeight="bold">Update Attendance</Typography>
-            {selected.length <= 1 &&
-                <DatePicker
-                    value={date}
-                    onChange={setDate}
-                    size="small"
-                    label="Date"
-                    variant="standard"
-                    fullWidth
-                />}
-
-            <TimePicker
-                label="Check In"
-                value={startTime}
-                onChange={setStartTime}
-                size="small"
-                fullWidth
-                variant="standard"
-            />
-            <TimePicker
-                label="Check Out"
-                value={endTime}
-                onChange={setEndTime}
-                size="small"
-                fullWidth
-                variant="standard"
-            />
-            <TextField
-                size="small"
-                variant="standard"
-                label="Status"
-                select
-                value={status}
-                onChange={handleStatusChange}
-            >
-                <MenuItem value="on_time">On-Time</MenuItem>
-                <MenuItem value="late">Late</MenuItem>
-            </TextField>
-            <LoadingButton
-                disableRipple
-                color="inherit"
-                startIcon={<UpdateIcon />}
-                onClick={handleSubmit}
-            >
-                Update
-            </LoadingButton>
-        </Stack>
     )
 }
 

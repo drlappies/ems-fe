@@ -1,5 +1,5 @@
 import Header from '../../components/Header/Header';
-import Profile from '../../components/Profile/Profile';
+import Profile from '../../features/Profile/Profile';
 
 function ProfilePage() {
     return (

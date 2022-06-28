@@ -1,5 +1,5 @@
 import Header from '../../components/Header/Header';
-import Punch from '../../components/Punch/Punch'
+import Punch from '../../features/Punch/Punch'
 
 function AttendanceCheckInPage() {
     return (
