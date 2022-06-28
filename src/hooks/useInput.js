@@ -7,8 +7,8 @@ function useInput(initialValue = "") {
         setValue(e.target.value)
     }
 
-    const resetValue = () => {
-        setValue('')
+    const resetValue = (value = "") => {
+        setValue(value)
     }
 
     return [value, handleChange, resetValue]

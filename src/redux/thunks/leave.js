@@ -3,14 +3,24 @@ import fetch from "../../services/axios/index";
 import leaveApi from '../../services/apis/leave';
 import * as leaveAction from '../actions/leave'
 
-export function postLeave() {
+export function postLeave(employeeId, leaveType, span, date, status, remark, cb) {
     return async (dispatch) => {
         dispatch(leaveAction.postLeave())
         try {
+            const data = {
+                employee_id: employeeId,
+                leave_type: leaveType,
+                span: span,
+                date: date,
+                status: status,
+                remark: remark
+            }
 
-
+            const res = await fetch(leaveApi.postLeave.api, leaveApi.postLeave.method, data)
 
             dispatch(leaveAction.postLeaveSuccess())
+
+            if (cb) cb(res.data)
         } catch (error) {
             dispatch(leaveAction.postLeaveFailure())
         }
@@ -96,6 +106,77 @@ export function getLeave(offset, limit, orderBy, order, search, employeeId, stat
             dispatch(leaveAction.getLeaveSuccess(payload))
         } catch (error) {
             dispatch(leaveAction.getLeaveFailure())
+        }
+    }
+}
+
+export function putLeaveById(id, data, cb) {
+    return async (dispatch) => {
+        dispatch(leaveAction.putLeaveById())
+        try {
+            const res = await fetch(leaveApi.putLeaveById.api.replace("{{id}}", id), leaveApi.putLeaveById.method, data)
+
+            const payload = {
+                updatedLeaveList: res.data.result
+            }
+
+            dispatch(leaveAction.putLeaveByIdSuccess(payload))
+
+            if (cb) cb(res.data)
+        } catch (error) {
+            dispatch(leaveAction.putLeaveByIdFailure())
+        }
+    }
+}
+
+export function batchUpdateLeave(ids, data, cb) {
+    return async (dispatch) => {
+        dispatch(leaveAction.postBatchUpdateLeave())
+        try {
+            const res = await fetch(leaveApi.batchUpdateLeave.api, leaveApi.batchUpdateLeave.method, {
+                ids: ids,
+                data: data
+            })
+            dispatch(leaveAction.postBatchUpdateLeaveSuccess())
+
+            if (cb) cb(res.data)
+        } catch (error) {
+            dispatch(leaveAction.postBatchUpdateLeaveFailure())
+        }
+    }
+}
+
+export function deleteLeaveById(id, cb) {
+    return async (dispatch) => {
+        dispatch(leaveAction.deleteLeaveById())
+        try {
+            const res = await fetch(leaveApi.deleteLeaveById.api.replace("{{id}}", id), leaveApi.deleteLeaveById.method)
+
+            const payload = {
+                leave: res.data.result
+            }
+
+            dispatch(leaveAction.deleteLeaveByIdSuccess(payload))
+
+            if (cb) cb(res.data)
+        } catch (error) {
+            dispatch(leaveAction.deleteLeaveByIdFailure())
+        }
+    }
+}
+
+export function batchDeleteLeave(ids, cb) {
+    return async (dispatch) => {
+        dispatch(leaveAction.postBatchDeleteLeave())
+        try {
+            const res = await fetch(leaveApi.batchDeleteLeave.api, leaveApi.batchDeleteLeave.method, {
+                ids: ids
+            })
+            dispatch(leaveAction.postBatchDeleteLeaveSuccess())
+
+            if (cb) cb(res.data)
+        } catch (error) {
+            dispatch(leaveAction.postBatchDeleteLeaveFailure())
         }
     }
 }

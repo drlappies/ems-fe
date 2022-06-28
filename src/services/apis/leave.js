@@ -16,6 +16,22 @@ const leaveApi = {
     getLeave: {
         api: "/api/leave",
         method: methods.GET
+    },
+    putLeaveById: {
+        api: "/api/leave/{{id}}",
+        method: methods.PUT
+    },
+    batchUpdateLeave: {
+        api: "/api/leave/batch_update",
+        method: methods.POST
+    },
+    deleteLeaveById: {
+        api: "/api/leave/{{id}}",
+        method: methods.DELETE
+    },
+    batchDeleteLeave: {
+        api: "/api/leave/batch_delete",
+        method: methods.POST
     }
 }
 
