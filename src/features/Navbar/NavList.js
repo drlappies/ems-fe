@@ -35,7 +35,7 @@ const NavList = styled(List)({
         borderRadius: "15px",
         backgroundColor: "rgba(135, 123, 255, 0.8)",
         '&:hover': {
-            backgroundColor: "rgba(135, 123, 255,1)"
+            backgroundColor: "rgba(135, 123, 255, 1)"
         },
     },
 })
