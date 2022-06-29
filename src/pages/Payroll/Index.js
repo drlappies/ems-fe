@@ -1,6 +1,13 @@
+import Header from '../../components/Header/Header';
+import PayrollTable from '../../features/Payroll/Table';
+
+
 function PayrollPage() {
     return (
-        <div>Main page here</div>
+        <>
+            <Header text="Payroll" />
+            <PayrollTable />
+        </>
     )
 }
 
